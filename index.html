@@ -5,89 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="slider.css">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        div img {
-            opacity:0;
-            height: 100%;
-            height:250px;
-            margin: auto;
-            position: relative;
-            height: auto;
-            bottom: 0;
-        }
         .slider {
             margin: 100px auto;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
         }
-        .circles {
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            bottom: 10px;
+        .slider2 {
+            margin: 20px auto;
         }
-        .circle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
-            border: 5px solid white;
-            box-sizing: border-box;
-            margin: 2px;
-            opacity: 0.6;
-        }
-        </style>
+    </style>
 </head>
 <body>
-    <div id="slider" class="slider">
-        
-    </div>
+        <div id="slider1" class="slider"></div>
+        <div id="slider2" class="slider slider2"></div>
+
     <script>
-        let max = 6; // максимальный индекс рисунка
-        let prefix = 'photo/team-'; // префикс имени файла изображения
-        let delay = 2; // время показа изображения в секундах
-        let fade = 0.5; // время набора 100% непрозрачности в % от delay
+        function slider (max, prefix, delay, fade, sliderId, sliderWidth, sliderHeight) {
+        // аргументы:
+        // --------------------------------------------
+        // max - максимальный индекс рисунка (к-во изображений)
+        // prefix - префикс имени файла изображения
+        // delay - время показа изображения в секундах
+        // fade - время набора 100% непрозрачности в % от delay
+        // sliderId - идентификатор элемента-родителя;
+        // sliderWidth - ширина слайдера в px
+        // sliderHeight - ширина слайдера в px
+        // ----------------------------------------------------
+        
         let fps = 20; // частота обновления
         let counter = 1; // индекс текущего рисунка
         let prevCounter = 0; // индекс предыдущего рисунка
         let opacity = 0; // прозрачность рисунка
         let timeNext = 0; // время смены рисунка
-        let sliderWidth = 250; // ширина слайдера в px
-        let sliderHeight = 250; // ширина слайдера в px
-        let sliderId = 'slider';
 
         let slider = document.querySelector(`#${sliderId}`);
         slider.style.width = `${sliderWidth}px`;
         slider.style.height = `${sliderHeight}px`;
+        slider.style.position = 'relative';
 
         let img = document.createElement('img');
         slider.appendChild(img);
         img.style.maxWidth = `${sliderWidth}px`;
+        img.style.maxHeight = `${sliderHeight}px`;
 
         let circles = document.createElement("div");
         circles.classList = 'circles';
-        for (var n = 1; n <=max; n++) {
-            circles.innerHTML += `<div class="circle" id="c${n}"></div>`;
-        }
         slider.appendChild(circles);
         circles.style.width = `${sliderWidth}px`;
+
+        for (var n = 1; n <=max; n++) {
+            var s = sliderWidth / max * 0.5;
+            var el = document.createElement('div');
+            circles.appendChild(el);
+            el.classList = 'circle';
+            el.id = `${sliderId}-circle${n}`;
+            el.style.width = `${s}px`;
+            el.style.height = `${s}px`;
+            el.style.borderWidth = `${Math.round(s/4)}px`;
+
+            // circles.innerHTML += `<div class="circle" id="${sliderId}-circle${n}" style="width: ${s}px; height: ${s}px"></div>`;
+        }
 
 
         let interval = setInterval(function (){
             img.src = `${prefix}${counter}.jpg`;
 
             if (prevCounter != 0) {
-            let elem = document.querySelector(`#c${prevCounter}`);
+            let elem = document.querySelector(`#${sliderId}-circle${prevCounter}`);
             elem.style.backgroundColor = 'white';
             };
 
-            elem = document.querySelector(`#c${counter}`);
+            elem = document.querySelector(`#${sliderId}-circle${counter}`);
             elem.style.backgroundColor = 'black';
 
             if (timeNext >= fps * delay) {
@@ -101,6 +94,11 @@
             opacity = opacity < 1 ? opacity + 1 / (fps * fade) : 1;
             img.style.opacity = opacity;
         },1000/fps);
+        };
+
+        slider(6, 'photo/team-', 2, 0.25, 'slider1', 250, 250);
+        slider(4, 'photo/portrait', 1.5, 0.25, 'slider2', 150, 150);
+
     </script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+div img {
+    opacity:0;
+    height: 100%;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.circles {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 10px;
+}
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 5px solid white;
+    box-sizing: border-box;
+    margin: 2px;
+    opacity: 0.6;
+}
