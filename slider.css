@@ -11,6 +11,7 @@ div img {
 .circles {
     display: flex;
     justify-content: center;
+    align-items: center;
     position: absolute;
     bottom: 10px;
 }
@@ -23,4 +24,21 @@ div img {
     box-sizing: border-box;
     margin: 2px;
     opacity: 0.6;
+}
+.arrow {
+    color: white;
+    border: 1px solid darkgray;
+    background-color: gray;
+    opacity: 0.5;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.arrow:hover {
+    opacity:1;
 }
